@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+            http://www.springframework.org/schema/task  http://www.springframework.org/schema/task/spring-task.xsd
+     		http://www.springframework.org/schema/rabbit
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan annotation-config="true" base-package="com.llp"/>
+
+    <!-- 使Spring标注Annotation -->
+    <context:annotation-config/>
+
+    <!-- 加载属性文件 -->
+    <bean class="com.llp.init.PropertiesPlaceholderConfigurer">
+        <!--        <property name="locations"> -->
+        <!--            <list>-->
+        <!--            	<value>classpath:mybatis/mybatis.properties</value>-->
+        <!--				<value>classpath:config.properties</value>-->
+        <!--            </list>-->
+        <!--        </property>-->
+    </bean>
+
+    <!-- 配置验证码 -->
+    <bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+        <property name="config">
+            <bean class="com.google.code.kaptcha.util.Config">
+                <constructor-arg>
+                    <props>
+                        <!-- 图片边框 -->
+                        <prop key="kaptcha.border">no</prop>
+                        <!-- 图片宽度 -->
+                        <prop key="kaptcha.image.width">95</prop>
+                        <!-- 图片高度 -->
+                        <prop key="kaptcha.image.height">45</prop>
+                        <!-- 验证码背景颜色渐变，开始颜色 -->
+                        <prop key="kaptcha.background.clear.from">248,248,248</prop>
+                        <!-- 验证码背景颜色渐变，结束颜色 -->
+                        <prop key="kaptcha.background.clear.to">248,248,248</prop>
+                        <!-- 验证码的字符 -->
+                        <prop key="kaptcha.textproducer.char.string">23456789abcdefghjklmnpqrstuvwxyz</prop>
+                        <!-- 验证码字体颜色 -->
+                        <prop key="kaptcha.textproducer.font.color">0,0,255</prop>
+                        <!-- 验证码的效果，水纹 -->
+                        <prop key="kaptcha.obscurificator.impl">com.google.code.kaptcha.impl.WaterRipple</prop>
+                        <!-- 验证码字体大小 -->
+                        <prop key="kaptcha.textproducer.font.size">35</prop>
+                        <!-- 验证码字数 -->
+                        <prop key="kaptcha.textproducer.char.length">4</prop>
+                        <!-- 验证码文字间距 -->
+                        <prop key="kaptcha.textproducer.char.space">2</prop>
+                        <!-- 验证码字体 -->
+                        <prop key="kaptcha.textproducer.font.names">new Font("Arial", 1, fontSize), new Font("Courier",
+                            1, fontSize)
+                        </prop>
+                        <!-- 不加噪声 -->
+                        <prop key="kaptcha.noise.impl">com.google.code.kaptcha.impl.NoNoise</prop>
+                    </props>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
+<!--    &lt;!&ndash; 导入Mybatis配置文件 &ndash;&gt;-->
+<!--    <import resource="mybatis/applicationContext-mybatis.xml"/>-->
+<!--    &lt;!&ndash; 导入定时任务配置文件 &ndash;&gt;-->
+<!--    <import resource="jobs/applicationContext-jobs.xml"/>-->
+</beans>
